@@ -4,24 +4,37 @@ namespace App\Repositories;
 
 use App\User;
 use App\Task;
+
 class TaskRepository
 {
+    private $tasks;
+
+    private $tasksModel;
+    public function __construct(Task $taskModel )
+    {
+        $this->tasksModel = $taskModel;
+    }
+
     /**
      * Получить все задачи заданного пользователя.
      *
      * @param  User $user
      * @return Collection
      */
-   /* public function forUser(User $user)
+    public function getUserTasks(User $user)
     {
         return $user->tasks()
-            ->orderBy('created_at', 'asc')
-            ->get();
-    }*/
+            ->orderBy('created_at', 'asc');
+    }
 
-    public function oneTask($task)
+    public function getAllTasks()
     {
-        return $task ->all();
+        return $this->tasksModel->all();
+
+    }
+    public function getSingleTask($id)
+    {
+        return $this->tasksModel->find($id);
 
     }
 

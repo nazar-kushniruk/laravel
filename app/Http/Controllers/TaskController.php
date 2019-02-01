@@ -14,6 +14,7 @@ class TaskController extends Controller
      * @var TaskRepository
      */
     protected $tasks;
+    public $comments;
     /**
      * Создание нового экземпляра контроллера.
      *
@@ -24,7 +25,7 @@ class TaskController extends Controller
     {
 
         $this->tasks =$tasks;
-
+        $this->comments = new Comment();
 
     }
     /**
@@ -35,8 +36,8 @@ class TaskController extends Controller
      */
 
     public function index(Request $request){
-        $tasks = Task::all();
-      //  dd($tasks);
+        $tasks = $this->tasks->getAllTasks();
+       // dd($tasks);
         return view('homeTemplate', [
            /* 'tasks' => $this->tasks->forUser($request->user()),*/
             'tasks' => $tasks,
@@ -50,10 +51,12 @@ class TaskController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    { $task = Task::find($id);
-      $articleComments = Comment::where('task_id', $task->id)->get();
+    { $task = $this->tasks->getSingleTask($id);
+     // $articleComments = Comment::where('task_id', $task->id)->get();
+      $articleComments = $this->comments->getPostComments($task->id);
 
-        //  dd($articleComments);
+       //  dd($id);
+        // dd($this->comments::where('task_id',$id)->get());
         return view('tasks.show',['task' => $task,
            'comments' => $articleComments ]);
        // return $task;
