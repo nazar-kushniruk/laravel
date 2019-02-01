@@ -21,6 +21,6 @@ class Comment extends Model
 
     public function getPostComments($id)
     {
-            return Comment::find($id)->get();
+            return Comment::where('task_id',$id)->get();
     }
 }
